@@ -2,7 +2,7 @@
 using ProjectManagement.Domain.Constraints;
 using ProjectManagement.Domain.Errors;
 
-namespace ProjectManagement.Application.Tasks.Commands
+namespace ProjectManagement.Application.TaskItems.Commands.CreateTaskItem
 {
     public class CreateTaskItemCommandValidator : AbstractValidator<CreateTaskItemCommand>
     {

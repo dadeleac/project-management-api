@@ -6,7 +6,7 @@ using ProjectManagement.Domain.Enums;
 using ProjectManagement.Domain.Errors;
 using ProjectManagement.Domain.Exceptions;
 
-namespace ProjectManagement.Application.Tasks.Commands
+namespace ProjectManagement.Application.TaskItems.Commands.CreateTaskItem
 {
     public class CreateTaskItemCommandHandler : IRequestHandler<CreateTaskItemCommand, Guid>
     {
@@ -21,7 +21,7 @@ namespace ProjectManagement.Application.Tasks.Commands
 
         public async Task<Guid> Handle(CreateTaskItemCommand request, CancellationToken ct)
         {
-            ArgumentNullException.ThrowIfNull(request, nameof(request));
+            ArgumentNullException.ThrowIfNull(request);
 
             var project = await _projectRepository.GetByIdAsync(request.ProjectId, ct);
 

@@ -15,6 +15,7 @@ namespace ProjectManagement.Application.Projects.Commands.CreateProject
                 .MaximumLength(DomainConstraints.ProjectNameMaxLength)
                 .WithErrorCode(DomainErrors.Project.NameTooLong.Code)
                 .WithMessage(DomainErrors.Project.NameTooLong.MessageKey);
+            
             RuleFor(x => x.OwnerId)
                 .NotEmpty()
                 .WithErrorCode(DomainErrors.Project.OwnerRequired.Code)

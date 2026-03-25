@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using ProjectManagement.Domain.Enums;
 
-namespace ProjectManagement.Application.Tasks.Commands
+namespace ProjectManagement.Application.TaskItems.Commands.CreateTaskItem
 {
     public sealed record CreateTaskItemCommand(
         Guid ProjectId,

@@ -17,7 +17,9 @@
             public static readonly Error TitleRequired = new Error("task.title.required", "task.title.required.message");
             public static readonly Error TitleTooLong = new Error("task.title.too_long", "task.title.too_long.message");
             public static readonly Error InvalidPriority = new Error("task.priority.invalid", "task.priority.invalid.message");
-            public static readonly Error DueDateInPast = new Error("task.due_date_in_past", "task.due_date_in_past.message");           
+            public static readonly Error DueDateInPast = new Error("task.due_date_in_past", "task.due_date_in_past.message");
+            public static readonly Error IdRequired = new Error("task.id.required", "task.id.required.message");
+            public static readonly Error InvalidStatus = new Error("task.status.invalid", "task.status.invalid.message");
         }
     }
 }
