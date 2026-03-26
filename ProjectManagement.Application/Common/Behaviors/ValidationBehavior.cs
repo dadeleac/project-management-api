@@ -15,7 +15,7 @@ namespace ProjectManagement.Application.Common.Behaviors
             _validators = validators;
         }
 
-        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken ct)
         {
             if (!_validators.Any()) 
                 return await next();
@@ -23,7 +23,7 @@ namespace ProjectManagement.Application.Common.Behaviors
             var context = new ValidationContext<TRequest>(request);
 
             var validationResults = await Task.WhenAll(_validators
-                .Select(v => v.ValidateAsync(context, cancellationToken)));
+                .Select(v => v.ValidateAsync(context, ct)));
                        
             var failures = validationResults
                 .SelectMany(r => r.Errors)

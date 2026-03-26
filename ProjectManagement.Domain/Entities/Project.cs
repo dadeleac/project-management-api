@@ -19,12 +19,15 @@ namespace ProjectManagement.Domain.Entities
         public Project(string name, string? description, Guid ownerId)
         {
             if(string.IsNullOrWhiteSpace(name)) 
-                throw new DomainException(DomainErrors.ProjectNameRequired, nameof(Name));
+                throw new DomainException(DomainErrors.Project.NameRequired, nameof(Name));
 
             var normalizedName = name.Trim();
 
             if (normalizedName.Length > DomainConstraints.ProjectNameMaxLength)
-                throw new DomainException(DomainErrors.ProjectNameTooLong, nameof(Name));
+                throw new DomainException(DomainErrors.Project.NameTooLong, nameof(Name));
+
+            if(ownerId == Guid.Empty)
+                throw new DomainException(DomainErrors.Project.OwnerRequired, nameof(OwnerId));
 
             Id = Guid.NewGuid();
             Name = normalizedName;

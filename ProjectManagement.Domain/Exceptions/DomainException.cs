@@ -1,13 +1,15 @@
-﻿namespace ProjectManagement.Domain.Exceptions
+﻿using ProjectManagement.Domain.Errors;
+
+namespace ProjectManagement.Domain.Exceptions
 {
     public sealed class DomainException : Exception
     {
-        public string Code { get; }
+        public Error Error { get; }
         public string? PropertyName { get; }
 
-        public DomainException(string code, string? propertyName = null) : base(code)
+        public DomainException(Error error, string? propertyName = null) : base(error.MessageKey)
         {
-            Code = code;
+            Error = error;
             PropertyName = propertyName;
         }
     }

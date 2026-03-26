@@ -24,13 +24,13 @@ namespace ProjectManagement.Domain.Entities
         {
 
             if(string.IsNullOrWhiteSpace(title))
-                throw new DomainException(DomainErrors.TaskTitleRequired, nameof(Title));
+                throw new DomainException(DomainErrors.TaskItem.TitleRequired, nameof(Title));
             
             var normalizedTitle = title.Trim();
 
 
             if (normalizedTitle.Length > DomainConstraints.TaskTitleMaxLength)
-                throw new DomainException(DomainErrors.TaskTitleTooLong, nameof(Title));
+                throw new DomainException(DomainErrors.TaskItem.TitleTooLong, nameof(Title));
 
             Id = Guid.NewGuid();
             ProjectId = projectId;
