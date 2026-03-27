@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Domain.Enums;
 using ProjectManagement.Infrastructure.Common.Persistence;
 
-namespace ProjectManagement.Infrastructure.Persistence.Repositories;
+namespace ProjectManagement.Infrastructure.Repositories.Commands;
 
 public class TaskItemRepository : ITaskItemRepository
 {
@@ -34,9 +34,7 @@ public class TaskItemRepository : ITaskItemRepository
 
     public async Task<bool> HasInProgressTasksAsync(Guid projectId, CancellationToken ct)
     {
-        // RN-02: El Global Query Filter (!IsDeleted) ya actúa aquí automáticamente.
-        // Verificamos si hay alguna tarea que no esté en estado 'Done'.
         return await _context.TaskItems
-            .AnyAsync(t => t.ProjectId == projectId && t.Status != TaskItemStatus.Done, ct);
+            .AnyAsync(t => t.ProjectId == projectId && t.Status == TaskItemStatus.InProgress, ct);
     }
 }

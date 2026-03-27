@@ -1,6 +1,6 @@
 ﻿using ProjectManagement.Domain.Entities;
 
-namespace ProjectManagement.Application.Common.Interfaces
+namespace ProjectManagement.Application.Common.Interfaces.Commands
 {
     public interface IProjectRepository
     {

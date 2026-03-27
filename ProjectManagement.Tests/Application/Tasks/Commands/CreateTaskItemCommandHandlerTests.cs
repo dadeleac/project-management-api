@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
 using ProjectManagement.Application.Common.Exceptions;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Application.TaskItems.Commands.CreateTaskItem;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Domain.Enums;

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Moq;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Application.Projects.Commands.ArchiveProject;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Domain.Enums;

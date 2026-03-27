@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Infrastructure.Common.Persistence;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectManagement.Infrastructure.Repositories
+namespace ProjectManagement.Infrastructure.Repositories.Commands
 {
     public class ProjectRepository : IProjectRepository
     {

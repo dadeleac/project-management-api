@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ProjectManagement.Application.Common.Exceptions;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 
 namespace ProjectManagement.Application.TaskItems.Commands.DeleteTaskItem

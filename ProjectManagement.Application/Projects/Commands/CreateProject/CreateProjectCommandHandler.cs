@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 namespace ProjectManagement.Application.Projects.Commands.CreateProject
 {
