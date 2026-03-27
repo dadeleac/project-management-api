@@ -24,7 +24,7 @@ namespace ProjectManagement.Application.TaskItems.Commands.UpdateTaskItemStatus
                 throw new NotFoundException(nameof(TaskItem), request.TaskItemId); 
 
             taskItem.UpdateStatus(request.NewStatus);
-            await _taskItemRepository.UpdateAsync(taskItem, ct);
+            await _taskItemRepository.SaveAsync(taskItem, ct);
         }
     }
 }

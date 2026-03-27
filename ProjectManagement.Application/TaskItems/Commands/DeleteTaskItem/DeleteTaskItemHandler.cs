@@ -2,11 +2,6 @@
 using ProjectManagement.Application.Common.Exceptions;
 using ProjectManagement.Application.Common.Interfaces;
 using ProjectManagement.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectManagement.Application.TaskItems.Commands.DeleteTaskItem
 {
@@ -32,7 +27,7 @@ namespace ProjectManagement.Application.TaskItems.Commands.DeleteTaskItem
                 return; 
 
             taskItem.MarkAsDeleted();
-             await _taskItemRepository.UpdateAsync(taskItem, ct);
+             await _taskItemRepository.SaveAsync(taskItem, ct);
         }
 
 

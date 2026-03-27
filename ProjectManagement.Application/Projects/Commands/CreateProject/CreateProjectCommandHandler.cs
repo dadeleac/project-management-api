@@ -19,7 +19,7 @@ namespace ProjectManagement.Application.Projects.Commands.CreateProject
 
             var project = new Project(request.Name, request.Description, request.OwnerId);
 
-            await _projectRepository.CreateAsync(project, cancellationToken);
+            await _projectRepository.SaveAsync(project, cancellationToken);
 
             return project.Id; 
 
