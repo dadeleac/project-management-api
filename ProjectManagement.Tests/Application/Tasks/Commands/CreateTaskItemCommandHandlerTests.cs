@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Moq;
 using ProjectManagement.Application.Common.Exceptions;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Application.TaskItems.Commands.CreateTaskItem;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Domain.Enums;
@@ -54,7 +54,7 @@ namespace ProjectManagement.Tests.Application.Tasks.Commands
 
             // 2. Garantizamos que NO se haya persistido nada en la base de datos (Protección de datos)
             _taskItemRepositoryMock.Verify(
-                x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()),
+                x => x.SaveAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()),
                 Times.Never);
         }
 
@@ -102,7 +102,7 @@ namespace ProjectManagement.Tests.Application.Tasks.Commands
             TaskItem? createdTask = null;
 
             _taskItemRepositoryMock
-                .Setup(x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
+                .Setup(x => x.SaveAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
                 .Callback<TaskItem, CancellationToken>((task, _) => createdTask = task)
                 .Returns(Task.CompletedTask);
 
@@ -112,7 +112,7 @@ namespace ProjectManagement.Tests.Application.Tasks.Commands
             // Assert
             // 1. Se ha llamado al repositorio una sola vez
             _taskItemRepositoryMock.Verify(
-                x => x.CreateAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()),
+                x => x.SaveAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()),
                 Times.Once);
 
             // 2. Se ha creado correctamente la entidad con los datos del comando

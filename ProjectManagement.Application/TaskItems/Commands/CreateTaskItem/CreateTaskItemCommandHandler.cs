@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ProjectManagement.Application.Common.Exceptions;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Domain.Enums;
 using ProjectManagement.Domain.Errors;
@@ -42,7 +42,7 @@ namespace ProjectManagement.Application.TaskItems.Commands.CreateTaskItem
                 request.Priority,
                 request.DueDate);
 
-            await _taskRepository.CreateAsync(taskItem, ct);
+            await _taskRepository.SaveAsync(taskItem, ct);
             
             return taskItem.Id;
         }

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 namespace ProjectManagement.Application.Projects.Commands.CreateProject
 {
@@ -19,7 +19,7 @@ namespace ProjectManagement.Application.Projects.Commands.CreateProject
 
             var project = new Project(request.Name, request.Description, request.OwnerId);
 
-            await _projectRepository.CreateAsync(project, cancellationToken);
+            await _projectRepository.SaveAsync(project, cancellationToken);
 
             return project.Id; 
 

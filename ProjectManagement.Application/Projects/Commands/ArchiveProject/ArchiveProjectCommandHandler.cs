@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ProjectManagement.Application.Common.Exceptions;
-using ProjectManagement.Application.Common.Interfaces;
+using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Domain.Errors;
 using ProjectManagement.Domain.Exceptions;
