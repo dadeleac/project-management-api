@@ -17,7 +17,7 @@ Content-Type: {{contentType}}
 }
 
 ### COPIA EL ID DEL PROYECTO AQUÍ:
-@projectId = 
+@projectId = 00000000-0000-0000-0000-000000000000
 
 ### 1.2 Crear una Tarea en el Proyecto (RN-01)
 # @name createTask
@@ -32,7 +32,7 @@ Content-Type: {{contentType}}
 }
 
 ### COPIA EL ID DE LA TAREA AQUÍ:
-@taskId = 3159be15-e883-4856-a3fe-f576a4467f01
+@taskId = 00000000-0000-0000-0000-000000000000
 
 ### 1.3.a Listar Tareas del Proyecto (Paginación RN-06)
 GET {{baseAddress}}/api/projects/{{projectId}}/tasks?pageNumber=1&pageSize=5
