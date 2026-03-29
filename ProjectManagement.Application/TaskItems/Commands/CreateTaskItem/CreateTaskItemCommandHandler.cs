@@ -42,7 +42,8 @@ namespace ProjectManagement.Application.TaskItems.Commands.CreateTaskItem
                 request.Priority,
                 request.DueDate);
 
-            await _taskRepository.SaveAsync(taskItem, ct);
+            await _taskRepository.AddAsync(taskItem, ct);
+            await _taskRepository.SaveChangesAsync(ct);
             
             return taskItem.Id;
         }

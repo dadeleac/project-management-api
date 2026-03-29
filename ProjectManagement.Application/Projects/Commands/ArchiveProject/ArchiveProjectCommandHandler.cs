@@ -34,7 +34,7 @@ namespace ProjectManagement.Application.Projects.Commands.ArchiveProject
                 throw new DomainException(DomainErrors.Project.HasInProgressTasks, nameof(Project));
 
             project.Archive();
-            await _projectRepository.SaveAsync(project, cancellationToken);
+            await _projectRepository.SaveChangesAsync(cancellationToken);
         }
     }
 }

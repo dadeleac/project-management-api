@@ -6,7 +6,7 @@ using ProjectManagement.Domain.Enums;
 using ProjectManagement.Infrastructure.Common.Persistence;
 using ProjectManagement.Infrastructure.Repositories.Queries;
 
-namespace ProjectManagement.Tests.Infrastructure.Projects.Queries;
+namespace ProjectManagement.Tests.Infrastructure.Persistence.Queries;
 
 public class ProjectQueryServiceTests : IDisposable
 {

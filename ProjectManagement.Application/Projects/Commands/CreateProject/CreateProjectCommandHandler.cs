@@ -19,7 +19,8 @@ namespace ProjectManagement.Application.Projects.Commands.CreateProject
 
             var project = new Project(request.Name, request.Description, request.OwnerId);
 
-            await _projectRepository.SaveAsync(project, cancellationToken);
+            await _projectRepository.AddAsync(project, cancellationToken);
+            await _projectRepository.SaveChangesAsync(cancellationToken);
 
             return project.Id; 
 

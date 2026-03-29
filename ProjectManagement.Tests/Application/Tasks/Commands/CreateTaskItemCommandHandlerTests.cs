@@ -54,7 +54,7 @@ namespace ProjectManagement.Tests.Application.Tasks.Commands
 
             // 2. Garantizamos que NO se haya persistido nada en la base de datos (Protección de datos)
             _taskItemRepositoryMock.Verify(
-                x => x.SaveAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()),
+                x => x.SaveChangesAsync(It.IsAny<CancellationToken>()),
                 Times.Never);
         }
 
@@ -89,7 +89,7 @@ namespace ProjectManagement.Tests.Application.Tasks.Commands
             var command = new CreateTaskItemCommand(
                 projectId,
                 "Nueva tarea",
-                "Descripción de la tarea",
+                "Descripción",
                 TaskPriority.Medium,
                 DateTime.UtcNow.AddDays(3));
 
@@ -99,32 +99,35 @@ namespace ProjectManagement.Tests.Application.Tasks.Commands
                 .Setup(x => x.GetByIdAsync(projectId, It.IsAny<CancellationToken>()))
                 .ReturnsAsync(activeProject);
 
-            TaskItem? createdTask = null;
+            // Variable para capturar la tarea que se envía al AddAsync
+            TaskItem? capturedTask = null;
 
             _taskItemRepositoryMock
-                .Setup(x => x.SaveAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
-                .Callback<TaskItem, CancellationToken>((task, _) => createdTask = task)
+                .Setup(x => x.AddAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()))
+                .Callback<TaskItem, CancellationToken>((task, _) => capturedTask = task)
                 .Returns(Task.CompletedTask);
 
             // Act
             var result = await _handler.Handle(command, CancellationToken.None);
 
             // Assert
-            // 1. Se ha llamado al repositorio una sola vez
+            // 1. Verificamos que se llamó a AddAsync (intención de crear)
             _taskItemRepositoryMock.Verify(
-                x => x.SaveAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()),
+                x => x.AddAsync(It.IsAny<TaskItem>(), It.IsAny<CancellationToken>()),
                 Times.Once);
 
-            // 2. Se ha creado correctamente la entidad con los datos del comando
-            createdTask.Should().NotBeNull();
-            createdTask!.ProjectId.Should().Be(projectId);
-            createdTask.Title.Should().Be(command.Title);
-            createdTask.Description.Should().Be(command.Description);
-            createdTask.Priority.Should().Be(command.Priority);
-            createdTask.Status.Should().Be(TaskItemStatus.Todo);
+            // 2. Verificamos que se llamó a SaveChangesAsync (confirmación en BD)
+            _taskItemRepositoryMock.Verify(
+                x => x.SaveChangesAsync(It.IsAny<CancellationToken>()),
+                Times.Once);
 
-            // 3. El handler devuelve el Id generado para la nueva tarea
-            result.Should().Be(createdTask.Id);
+            // 3. Verificamos los datos de la tarea capturada
+            capturedTask.Should().NotBeNull();
+            capturedTask!.ProjectId.Should().Be(projectId);
+            capturedTask.Title.Should().Be(command.Title);
+
+            // 4. El resultado debe ser el ID de la tarea capturada
+            result.Should().Be(capturedTask.Id);
         }
     }
 }

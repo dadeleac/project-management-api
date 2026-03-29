@@ -18,7 +18,7 @@ namespace ProjectManagement.Application.TaskItems.Commands.DeleteTaskItem
         {
             ArgumentNullException.ThrowIfNull(request);
 
-            var taskItem = await _taskItemRepository.GetByIdAsync(request.TaskItemId, ct);
+            var taskItem = await _taskItemRepository.GetByIdIncludingDeletedAsync(request.TaskItemId, ct);
 
             if (taskItem is null) 
                 throw new NotFoundException(nameof(TaskItem), request.TaskItemId);
@@ -27,7 +27,8 @@ namespace ProjectManagement.Application.TaskItems.Commands.DeleteTaskItem
                 return; 
 
             taskItem.MarkAsDeleted();
-             await _taskItemRepository.SaveAsync(taskItem, ct);
+
+            await _taskItemRepository.SaveChangesAsync(ct);
         }
 
 

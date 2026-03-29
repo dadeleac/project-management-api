@@ -20,21 +20,32 @@ public class TaskItemRepository : ITaskItemRepository
         return await _context.TaskItems.FindAsync(new object[] { id }, ct);
     }
 
-    public async Task SaveAsync(TaskItem taskItem, CancellationToken ct)
-    {
-        var entry = _context.Entry(taskItem);
-
-        if (entry.State == EntityState.Detached)
-        {
-            await _context.TaskItems.AddAsync(taskItem, ct);
-        }
-
-        await _context.SaveChangesAsync(ct);
-    }
-
     public async Task<bool> HasInProgressTasksAsync(Guid projectId, CancellationToken ct)
     {
         return await _context.TaskItems
             .AnyAsync(t => t.ProjectId == projectId && t.Status == TaskItemStatus.InProgress, ct);
+    }
+
+    public async Task<TaskItem?> GetByIdIncludingDeletedAsync(Guid id, CancellationToken ct)
+    {
+        return await _context.TaskItems
+            .IgnoreQueryFilters()
+            .FirstOrDefaultAsync(t => t.Id == id, ct); 
+    }
+
+    public async Task AddAsync(TaskItem taskItem, CancellationToken ct)
+    {
+        await _context.TaskItems.AddAsync(taskItem, ct); ;
+    }
+
+    public Task UpdateAsync(TaskItem taskItem, CancellationToken ct)
+    {
+        _context.TaskItems.Update(taskItem);
+        return Task.CompletedTask; 
+    }
+
+    public async Task SaveChangesAsync(CancellationToken ct)
+    {
+        await _context.SaveChangesAsync(ct);
     }
 }
