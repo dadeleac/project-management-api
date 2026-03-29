@@ -27,7 +27,8 @@ namespace ProjectManagement.Infrastructure.Repositories.Queries
                     t.Description,
                     t.Status,
                     t.Priority,
-                    t.DueDate))
+                    t.DueDate, 
+                    t.CompletedAt))
                 .FirstOrDefaultAsync(ct);
         }
 
@@ -60,7 +61,8 @@ namespace ProjectManagement.Infrastructure.Repositories.Queries
                     t.Description,
                     t.Status,
                     t.Priority,
-                    t.DueDate))
+                    t.DueDate, 
+                    t.CompletedAt))
                 .ToListAsync(ct);
 
             return new PagedResponse<TaskItemDto>(

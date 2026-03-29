@@ -1,6 +1,119 @@
-@ProjectManagement.Api_HostAddress = http://localhost:5070
+@baseAddress = http://localhost:5070
+@contentType = application/json
 
-GET {{ProjectManagement.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### ==========================================================
+### FLUJO 1: ESCENARIO DE ÉXITO (HAPPY PATH)
+### ==========================================
 
-###
+### 1.1 Crear un Proyecto Nuevo
+# @name createProject
+POST {{baseAddress}}/api/projects
+Content-Type: {{contentType}}
+
+{
+    "name": "Proyecto de Desarrollo Web",
+    "description": "Rediseño del portal corporativo",
+    "ownerId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+}
+
+### COPIA EL ID DEL PROYECTO AQUÍ:
+@projectId = 00000000-0000-0000-0000-000000000000
+
+### 1.2 Crear una Tarea en el Proyecto (RN-01)
+# @name createTask
+POST {{baseAddress}}/api/projects/{{projectId}}/tasks
+Content-Type: {{contentType}}
+
+{
+    "title": "Configurar Entorno",
+    "description": "Instalación de dependencias iniciales",
+    "priority": "High",
+    "dueDate": "2026-12-31T23:59:59Z"
+}
+
+### COPIA EL ID DE LA TAREA AQUÍ:
+@taskId = 00000000-0000-0000-0000-000000000000
+
+### 1.3.a Listar Tareas del Proyecto (Paginación RN-06)
+GET {{baseAddress}}/api/projects/{{projectId}}/tasks?pageNumber=1&pageSize=5
+
+### 1.4 Cambiar Estado a InProgress (RN-03)
+PATCH {{baseAddress}}/api/taskitems/{{taskId}}/status
+Content-Type: {{contentType}}
+
+{
+    "newStatus": "InProgress"
+}
+
+### 1.5 Listar Tareas con filtros (Status y Priority)
+GET {{baseAddress}}/api/projects/{{projectId}}/tasks?status=InProgress&priority=High&pageNumber=1&pageSize=10
+
+### 1.6 Ver Detalle con Estadísticas (RN-05)
+# Verifica que aparezca 1 tarea en 'InProgress'
+GET {{baseAddress}}/api/projects/{{projectId}}
+
+### ==========================================================
+### FLUJO 2: VALIDACIÓN DE REGLAS DE NEGOCIO (ERRORES 422/400)
+### ==========================================
+
+### 2.1 Intentar Archivar con Tarea InProgress (Error 422 - RN-02)
+# Bloqueado porque la tarea del punto 1.4 sigue activa.
+PATCH {{baseAddress}}/api/projects/{{projectId}}/archive
+
+### 2.2.a Finalizar Tarea (Asigna CompletedAt RN-03)
+PATCH {{baseAddress}}/api/taskitems/{{taskId}}/status
+Content-Type: {{contentType}}
+
+{
+    "newStatus": "Done"
+}
+
+### 2.2.b Verificar CompletedAt (RN-03)
+# Tras haber ejecutado el 2.2 (pasar a Done), verificamos que la fecha de completedAt existe
+GET {{baseAddress}}/api/taskitems/{{taskId}}
+
+### 2.3 Archivar Proyecto (Éxito ahora que no hay InProgress)
+PATCH {{baseAddress}}/api/projects/{{projectId}}/archive
+
+### 2.4 Intentar Crear Tarea en Proyecto Archivado (Error 422 - RN-01)
+POST {{baseAddress}}/api/projects/{{projectId}}/tasks
+Content-Type: {{contentType}}
+
+{
+    "title": "Tarea en proyecto cerrado",
+    "description": "Esta descripción es opcional",
+    "priority": "Low",
+    "dueDate": "2026-05-29T16:31:27.497Z"
+}
+
+### ==========================================================
+### FLUJO 3: OTROS CASOS Y LIMPIEZA
+### ==========================================
+
+### 3.1 Error 400: Fecha de entrega en el pasado
+POST {{baseAddress}}/api/projects/{{projectId}}/tasks
+Content-Type: {{contentType}}
+
+{
+    "title": "Regreso al futuro",
+    "description": "Esta descripción es opcional",
+    "priority": "Low",
+    "dueDate": "2020-01-01T00:00:00Z"
+}
+
+### 3.2 Borrado Lógico de Tarea (RN-04)
+DELETE {{baseAddress}}/api/taskitems/{{taskId}}
+
+### 3.3 Idempotencia del Borrado (RN-04 - 204 No Content)
+# Borrar la misma tarea de nuevo debe seguir dando 204.
+DELETE {{baseAddress}}/api/taskitems/{{taskId}}
+
+### 3.4 Listado General de Proyectos (Paginación obligatoria RN-06)
+GET {{baseAddress}}/api/projects
+
+### 3.5 Probar Límite de Paginación (RN-06)
+# Si pides 100, el sistema devuelve máximo 50
+GET {{baseAddress}}/api/projects?pageNumber=1&pageSize=100
+
+### 3.6 Error 404: Tarea no encontrada
+GET {{baseAddress}}/api/taskitems/00000000-0000-0000-0000-000000000000

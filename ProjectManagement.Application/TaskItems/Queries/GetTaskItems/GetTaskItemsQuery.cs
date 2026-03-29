@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
+using ProjectManagement.Application.Common.Pagination;
+using ProjectManagement.Domain.Enums;
 
 namespace ProjectManagement.Application.TaskItems.Queries.GetTaskItems
 {
-    public class GetTaskItemsQuery
-    {
-    }
+    public sealed record GetTasksQuery(
+        Guid ProjectId,
+        TaskItemStatus? Status = null,
+        TaskPriority? Priority = null,
+        int PageNumber = PaginationDefaults.DefaultPageNumber,
+        int PageSize = PaginationDefaults.DefaultPageSize)
+        : PagedQuery<TaskItemDto>(PageNumber, PageSize);
 }

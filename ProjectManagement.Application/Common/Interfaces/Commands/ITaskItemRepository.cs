@@ -4,8 +4,13 @@ namespace ProjectManagement.Application.Common.Interfaces.Commands
 {
     public interface ITaskItemRepository
     {
-        Task SaveAsync(TaskItem taskItem, CancellationToken ct);
+        Task AddAsync(TaskItem taskItem, CancellationToken ct);
+        Task UpdateAsync(TaskItem taskItem, CancellationToken ct);
+        Task SaveChangesAsync(CancellationToken ct); 
+
         Task<bool> HasInProgressTasksAsync(Guid projectId, CancellationToken ct);
         Task<TaskItem?> GetByIdAsync(Guid id, CancellationToken ct);
+        Task<TaskItem?> GetByIdIncludingDeletedAsync(Guid id, CancellationToken ct);
+    
     }
 }

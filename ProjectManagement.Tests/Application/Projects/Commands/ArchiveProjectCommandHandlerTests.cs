@@ -34,7 +34,6 @@ public class ArchiveProjectCommandHandlerTests
             .Setup(x => x.GetByIdAsync(projectId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(project);
 
-        // Simulamos que NO hay tareas en curso (RN-02)
         _taskItemRepositoryMock
             .Setup(x => x.HasInProgressTasksAsync(projectId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(false);
@@ -43,28 +42,27 @@ public class ArchiveProjectCommandHandlerTests
         await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        // 1. Verificamos que el estado de la entidad ha cambiado internamente
+        // 1. Verificamos el cambio de estado en el objeto de dominio
         project.Status.Should().Be(ProjectStatus.Archived);
 
-        // 2. Comprobamos que se ha llamado a la persistencia una sola vez
+        // 2. Verificamos que se llamó al "Commit" global
         _projectRepositoryMock.Verify(
-            x => x.SaveAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()),
+            x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), 
             Times.Once);
     }
 
     [Fact]
     public async Task Handle_ShouldThrowDomainException_WhenProjectHasTasksInProgress()
     {
-        // Arrange - RN-02
+        // Arrange
         var projectId = Guid.NewGuid();
         var command = new ArchiveProjectCommand(projectId);
-        var project = new Project("Proyecto", "Descripción del proyecto", Guid.NewGuid());
+        var project = new Project("Proyecto", "Descripción", Guid.NewGuid());
 
         _projectRepositoryMock
             .Setup(x => x.GetByIdAsync(projectId, It.IsAny<CancellationToken>()))
             .ReturnsAsync(project);
 
-        // Simulamos que el repositorio detecta tareas en curso
         _taskItemRepositoryMock
             .Setup(x => x.HasInProgressTasksAsync(project.Id, It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
@@ -73,12 +71,15 @@ public class ArchiveProjectCommandHandlerTests
         Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
 
         // Assert
-        // 1. Verificamos que lanza la excepción de negocio específica
+        // 1. Validación de la excepción de dominio
         var exception = await act.Should().ThrowAsync<DomainException>();
         exception.Which.Error.Should().Be(DomainErrors.Project.HasInProgressTasks);
 
-        // 2. Garantizamos que el estado del proyecto NO cambió y no se persistió
+        // 2. Integridad de los datos: El estado no debe cambiar y el Save no debe ejecutarse
         project.Status.Should().Be(ProjectStatus.Active);
-        _projectRepositoryMock.Verify(x => x.SaveAsync(It.IsAny<Project>(), It.IsAny<CancellationToken>()), Times.Never);
+
+        _projectRepositoryMock.Verify(
+            x => x.SaveChangesAsync(It.IsAny<CancellationToken>()),
+            Times.Never);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace ProjectManagement.Application.Projects.Queries.GetProjectsById
 {
-    public sealed record ProjectDetailsDto(
+    public sealed record ProjectDetailDto(
         Guid Id,
         string Name,
         string? Description,

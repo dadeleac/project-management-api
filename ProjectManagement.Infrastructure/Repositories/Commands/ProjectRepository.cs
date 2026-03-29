@@ -24,15 +24,18 @@ namespace ProjectManagement.Infrastructure.Repositories.Commands
             return await _context.Projects.FindAsync(new object[] { id }, ct);
         }
 
-        public async Task SaveAsync(Project project, CancellationToken ct)
+        public async Task AddAsync(Project project, CancellationToken ct)
         {
-            var entry = _context.Entry(project);
+            await _context.Projects.AddAsync(project, ct);
+        }
 
-            if(entry.State == EntityState.Detached)
-            {
-                await _context.Projects.AddAsync(project, ct);
-            }
+        public async Task UpdateAsync(Project project, CancellationToken ct)
+        {
+            _context.Projects.Update(project);
+        }
 
+        public async Task SaveChangesAsync(CancellationToken ct)
+        {
             await _context.SaveChangesAsync(ct);
         }
     }

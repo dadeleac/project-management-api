@@ -45,7 +45,7 @@ namespace ProjectManagement.Domain.Entities
 
         public void UpdateStatus(TaskItemStatus newStatus)
         {
-            Status = newStatus;
+           Status = newStatus;
             
             if(newStatus == TaskItemStatus.Done && CompletedAt is null)
             {

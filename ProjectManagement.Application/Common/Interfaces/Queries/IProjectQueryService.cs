@@ -7,7 +7,7 @@ namespace ProjectManagement.Application.Common.Interfaces.Queries
 {
     public interface IProjectQueryService
     {
-        Task<ProjectDetailsDto?> GetByIdAsync(Guid id, CancellationToken ct);
+        Task<ProjectDetailDto?> GetByIdAsync(Guid id, CancellationToken ct);
         Task<PagedResponse<ProjectListItemDto>> GetPagedAsync(
             ProjectStatus? status,
             int page,

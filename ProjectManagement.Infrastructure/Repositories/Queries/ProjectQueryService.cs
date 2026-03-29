@@ -17,12 +17,12 @@ namespace ProjectManagement.Infrastructure.Repositories.Queries
             _context = context;
         }
 
-        public async Task<ProjectDetailsDto?> GetByIdAsync(Guid id, CancellationToken ct)
+        public async Task<ProjectDetailDto?> GetByIdAsync(Guid id, CancellationToken ct)
         {
             return await _context.Projects
                 .AsNoTracking()
                 .Where(p => p.Id == id)
-                .Select(p => new ProjectDetailsDto(
+                .Select(p => new ProjectDetailDto(
                     p.Id,
                     p.Name,
                     p.Description,
