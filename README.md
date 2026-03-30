@@ -20,7 +20,7 @@ Implementa un caso práctico típico de gestión de proyectos y tareas, aplicand
 
 
 ```bash
-git clone https://github.com/<tu-usuario>/project-management-api.git
+git clone https://github.com/dadeleac/project-management-api.git
 cd project-management-api
 
 # Restaurar dependencias
