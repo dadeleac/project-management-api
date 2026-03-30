@@ -1,8 +1,9 @@
-﻿using System.Text.Json;
-using ProjectManagement.Api.Errors;
+﻿using ProjectManagement.Api.Errors;
 using ProjectManagement.Application.Common.Exceptions;
 using ProjectManagement.Domain.Exceptions;
 using Serilog;
+using System.Text.Json;
+using static ProjectManagement.Api.Common.Constants.ApiConstants;
 
 namespace ProjectManagement.Api.Middleware;
 
@@ -25,8 +26,8 @@ public sealed class ExceptionHandlingMiddleware(RequestDelegate next)
         var response = exception switch
         {
             RequestValidationException ex => new ApiErrorResponse(
-                400,
-                "ValidationException",
+                StatusCodes.Status400BadRequest,
+                ErrorTypes.Validation,
                 ErrorMessageTranslator.Translate(ex.Message),
                 ex.Errors.Select(e => new
                 {
@@ -35,43 +36,34 @@ public sealed class ExceptionHandlingMiddleware(RequestDelegate next)
                 }).Cast<object>().ToArray()),
 
             NotFoundException ex => new ApiErrorResponse(
-                404,
-                "NotFoundException",
+                StatusCodes.Status404NotFound,
+                ErrorTypes.NotFound,
                 ErrorMessageTranslator.Translate(ex.Message),
                 [new { Entity = ex.EntityName, ex.Key }]),
 
             DomainException ex => new ApiErrorResponse(
-                422,
-                "DomainException",
+                StatusCodes.Status422UnprocessableEntity,
+                ErrorTypes.Domain,
                 ErrorMessageTranslator.Translate(ex.Error.MessageKey),
                 ex.PropertyName is null
                     ? Array.Empty<object>()
                     : [new { Property = ex.PropertyName }]),
 
             _ => new ApiErrorResponse(
-                500,
-                "InternalServerError",
-                "Error interno no controlado.",
+                StatusCodes.Status500InternalServerError,
+                ErrorTypes.InternalServer,
+                Messages.InternalServerError,
                 Array.Empty<object>())
         };
 
         if (response.Status >= 500)
         {
-            Log.Error(
-                exception,
-                "Error crítico en API. {Method} {Path}",
-                context.Request.Method,
-                context.Request.Path);
+            Log.Error(exception, LogTemplates.CriticalError, context.Request.Method, context.Request.Path);
         }
         else
         {
-            Log.Warning(
-                exception,
-                "Error controlado en API. {Status} {Method} {Path} - {Message}",
-                response.Status,
-                context.Request.Method,
-                context.Request.Path,
-                response.Message);
+            Log.Warning(exception, LogTemplates.ControlledError,
+                response.Status, context.Request.Method, context.Request.Path, response.Message);
         }
 
         context.Response.ContentType = "application/json";

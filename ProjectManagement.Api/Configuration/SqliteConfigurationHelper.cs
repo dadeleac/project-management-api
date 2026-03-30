@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
-using ProjectManagement.Api.Common.Constants;
+using static ProjectManagement.Api.Common.Constants.ApiConstants;
 
 namespace ProjectManagement.Api.Configuration;
 

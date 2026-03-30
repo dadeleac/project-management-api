@@ -1,13 +1,7 @@
 ﻿using MediatR;
 using ProjectManagement.Application.Common.Exceptions;
 using ProjectManagement.Application.Common.Interfaces.Queries;
-using ProjectManagement.Application.TaskItems.Queries.GetTaskItems;
 using ProjectManagement.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectManagement.Application.TaskItems.Queries.GetTaskById
 {

@@ -2,6 +2,7 @@
 using Moq;
 using ProjectManagement.Application.Common.Interfaces.Queries;
 using ProjectManagement.Application.Common.Pagination;
+using ProjectManagement.Application.TaskItems.Queries;
 using ProjectManagement.Application.TaskItems.Queries.GetTaskItems;
 using ProjectManagement.Domain.Enums;
 

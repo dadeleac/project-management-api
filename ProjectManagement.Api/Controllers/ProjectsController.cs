@@ -7,6 +7,7 @@ using ProjectManagement.Application.Projects.Commands.CreateProject;
 using ProjectManagement.Application.Projects.Queries.GetProjects;
 using ProjectManagement.Application.Projects.Queries.GetProjectsById;
 using ProjectManagement.Application.TaskItems.Commands.CreateTaskItem;
+using ProjectManagement.Application.TaskItems.Queries;
 using ProjectManagement.Application.TaskItems.Queries.GetTaskItems;
 
 namespace ProjectManagement.Api.Controllers

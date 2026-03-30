@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Api.Models.Requests;
 using ProjectManagement.Application.TaskItems.Commands.DeleteTaskItem;
 using ProjectManagement.Application.TaskItems.Commands.UpdateTaskItemStatus;
+using ProjectManagement.Application.TaskItems.Queries;
 using ProjectManagement.Application.TaskItems.Queries.GetTaskById;
-using ProjectManagement.Application.TaskItems.Queries.GetTaskItems;
 
 namespace ProjectManagement.Api.Controllers
 {

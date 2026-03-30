@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Application.Common.Interfaces.Queries;
 using ProjectManagement.Application.Common.Pagination;
-using ProjectManagement.Application.TaskItems.Queries.GetTaskItems;
+using ProjectManagement.Application.TaskItems.Queries;
 using ProjectManagement.Domain.Enums;
 using ProjectManagement.Infrastructure.Common.Persistence;
 
