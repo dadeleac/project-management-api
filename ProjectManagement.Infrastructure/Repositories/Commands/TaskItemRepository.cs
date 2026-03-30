@@ -38,12 +38,6 @@ public class TaskItemRepository : ITaskItemRepository
         await _context.TaskItems.AddAsync(taskItem, ct); ;
     }
 
-    public Task UpdateAsync(TaskItem taskItem, CancellationToken ct)
-    {
-        _context.TaskItems.Update(taskItem);
-        return Task.CompletedTask; 
-    }
-
     public async Task SaveChangesAsync(CancellationToken ct)
     {
         await _context.SaveChangesAsync(ct);

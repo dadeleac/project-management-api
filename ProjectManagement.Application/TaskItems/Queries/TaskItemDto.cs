@@ -1,7 +1,6 @@
-﻿
-using ProjectManagement.Domain.Enums;
+﻿using ProjectManagement.Domain.Enums;
 
-namespace ProjectManagement.Application.TaskItems.Queries.GetTaskItems
+namespace ProjectManagement.Application.TaskItems.Queries
 {
     public record TaskItemDto(
         Guid Id,

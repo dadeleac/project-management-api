@@ -1,5 +1,5 @@
 ﻿using ProjectManagement.Application.Common.Pagination;
-using ProjectManagement.Application.TaskItems.Queries.GetTaskItems;
+using ProjectManagement.Application.TaskItems.Queries;
 using ProjectManagement.Domain.Enums;
 
 namespace ProjectManagement.Application.Common.Interfaces.Queries

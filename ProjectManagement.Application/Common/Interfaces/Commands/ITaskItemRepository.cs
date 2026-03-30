@@ -5,7 +5,6 @@ namespace ProjectManagement.Application.Common.Interfaces.Commands
     public interface ITaskItemRepository
     {
         Task AddAsync(TaskItem taskItem, CancellationToken ct);
-        Task UpdateAsync(TaskItem taskItem, CancellationToken ct);
         Task SaveChangesAsync(CancellationToken ct); 
 
         Task<bool> HasInProgressTasksAsync(Guid projectId, CancellationToken ct);

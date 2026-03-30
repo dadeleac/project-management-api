@@ -1,12 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ProjectManagement.Application.Common.Interfaces.Commands;
+﻿using ProjectManagement.Application.Common.Interfaces.Commands;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Infrastructure.Common.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectManagement.Infrastructure.Repositories.Commands
 {
@@ -27,11 +21,6 @@ namespace ProjectManagement.Infrastructure.Repositories.Commands
         public async Task AddAsync(Project project, CancellationToken ct)
         {
             await _context.Projects.AddAsync(project, ct);
-        }
-
-        public async Task UpdateAsync(Project project, CancellationToken ct)
-        {
-            _context.Projects.Update(project);
         }
 
         public async Task SaveChangesAsync(CancellationToken ct)

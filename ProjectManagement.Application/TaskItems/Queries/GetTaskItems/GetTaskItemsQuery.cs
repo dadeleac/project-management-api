@@ -1,5 +1,4 @@
-﻿using MediatR;
-using ProjectManagement.Application.Common.Pagination;
+﻿using ProjectManagement.Application.Common.Pagination;
 using ProjectManagement.Domain.Enums;
 
 namespace ProjectManagement.Application.TaskItems.Queries.GetTaskItems
